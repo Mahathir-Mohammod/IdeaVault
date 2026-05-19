@@ -1,6 +1,755 @@
-/* Diagnostic: Testing if DaisyUI @plugin is loaded */
-/* Expected: --color-base-100 and .navbar styles should be available */
-/* If you see this comment in browser DevTools > Sources, the CSS file is loading */
-
 @import "tailwindcss";
 @plugin "daisyui";
+
+
+
+:root {
+  --color-brand-red:        #E8391D;   
+  --color-brand-red-hover:  #C9301A;  
+  --color-brand-red-soft:   #F04E35;   
+
+  /* ── Neutral Palette ─────────────────────────────────────── */
+  --color-black:            #0D0608;
+  --color-dark-900:         #1A0C0E;
+  --color-dark-800:         #2A1014;
+  --color-dark-700:         #3D1A1E;
+  --color-dark-600:         #5C2A2E;
+  --color-white:            #FFFFFF;
+  --color-off-white:        #F5F0EE;
+  --color-gray-100:         #F2EDEB;
+  --color-gray-200:         #E0D8D5;
+  --color-gray-300:         #C4B8B5;
+  --color-gray-400:         #9E9090;
+  --color-gray-500:         #7A6D6D;
+
+  /* ── Stripe / Texture ────────────────────────────────────── */
+  --stripe-dark:            rgba(0, 0, 0, 0.35);
+  --stripe-light:           rgba(255, 255, 255, 0.04);
+
+  /* ── Semantic: Card / Pink tint background ───────────────── */
+  --color-card-warm:        #F2DDD8;  
+  --color-card-warm-dark:   #3A1A1A; 
+  /* ── Typography ──────────────────────────────────────────── */
+  --font-display:           'Syne', sans-serif;
+  --font-body:              'Inter', sans-serif;
+
+  --text-xs:    0.75rem;    
+  --text-sm:    0.875rem;   
+  --text-base:  1rem;       
+  --text-md:    1.125rem;   
+  --text-lg:    1.25rem;    
+  --text-xl:    1.5rem;     
+  --text-2xl:   2rem;       
+  --text-3xl:   2.75rem;    
+  --text-4xl:   3.5rem;     
+  --text-5xl:   4.5rem;     
+  --text-hero:  clamp(2.5rem, 6vw, 5rem);
+
+  --fw-light:   300;
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semibold:600;
+  --fw-bold:    700;
+  --fw-extrabold:800;
+
+  --leading-tight:  1.1;
+  --leading-snug:   1.25;
+  --leading-normal: 1.5;
+  --leading-loose:  1.75;
+
+  --tracking-tight:  -0.03em;
+  --tracking-normal:  0em;
+  --tracking-wide:    0.05em;
+  --tracking-wider:   0.1em;
+  --tracking-widest:  0.18em;
+
+  /* ── Spacing Scale ───────────────────────────────────────── */
+  --space-1:   0.25rem;   
+  --space-2:   0.5rem;    
+  --space-3:   0.75rem;  
+  --space-4:   1rem;     
+  --space-5:   1.25rem;   
+  --space-6:   1.5rem;    
+  --space-8:   2rem;      
+  --space-10:  2.5rem;   
+  --space-12:  3rem;     
+  --space-16:  4rem;     
+  --space-20:  5rem;     
+  --space-24:  6rem;     
+
+  /* ── Border Radius ───────────────────────────────────────── */
+  --radius-sm:   0.375rem;   
+  --radius-md:   0.75rem;   
+  --radius-lg:   1.25rem;    
+  --radius-xl:   1.75rem;   
+  --radius-2xl:  2.5rem;    
+  --radius-full: 9999px;
+
+  /* ── Shadows ─────────────────────────────────────────────── */
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
+  --shadow-md:   0 4px 12px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.12);
+  --shadow-lg:   0 10px 30px rgba(0,0,0,0.25), 0 4px 12px rgba(0,0,0,0.15);
+  --shadow-xl:   0 20px 50px rgba(0,0,0,0.35), 0 8px 20px rgba(0,0,0,0.2);
+  --shadow-red:  0 8px 24px rgba(232, 57, 29, 0.4);
+
+  /* ── Transitions ─────────────────────────────────────────── */
+  --ease-out:   cubic-bezier(0.0, 0.0, 0.2, 1);
+  --ease-in:    cubic-bezier(0.4, 0.0, 1, 1);
+  --ease-inout: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-spring:cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --duration-fast:   150ms;
+  --duration-base:   250ms;
+  --duration-slow:   400ms;
+  --duration-slower: 600ms;
+
+  /* ── Z-Index Scale ───────────────────────────────────────── */
+  --z-below:   -1;
+  --z-base:     0;
+  --z-raised:  10;
+  --z-dropdown:20;
+  --z-sticky:  30;
+  --z-overlay: 40;
+  --z-modal:   50;
+  --z-toast:   60;
+
+  /* ── Layout ──────────────────────────────────────────────── */
+  --container-max:   1240px;
+  --container-pad:   var(--space-8);
+  --nav-height:      72px;
+  --section-gap:     var(--space-16);
+}
+
+
+:root,
+[data-theme="dark"] {
+  /* Backgrounds */
+  --bg-page:          #150A0C;
+  --bg-surface:       #1E0E10;
+  --bg-card:          #2A1216;
+  --bg-card-alt:      var(--color-card-warm-dark);
+  --bg-nav:           #1A0B0D;
+  --bg-accent-block:  var(--color-brand-red);   
+  --bg-input:         #2D1416;
+  --bg-tag:           transparent;
+  --bg-tag-active:    var(--color-brand-red);
+  --bg-stripe:        repeating-linear-gradient(
+                        to right,
+                        transparent,
+                        transparent 60px,
+                        var(--stripe-dark) 60px,
+                        var(--stripe-dark) 62px
+                      );
+
+  /* Text */
+  --text-primary:     #FFFFFF;
+  --text-secondary:   rgba(255,255,255,0.65);
+  --text-muted:       rgba(255,255,255,0.40);
+  --text-accent:      var(--color-brand-red);
+  --text-on-red:      #FFFFFF;
+  --text-inverse:     var(--color-dark-900);
+
+  /* Borders */
+  --border-default:   rgba(255,255,255,0.08);
+  --border-subtle:    rgba(255,255,255,0.05);
+  --border-strong:    rgba(255,255,255,0.18);
+  --border-accent:    var(--color-brand-red);
+  --border-tag:       rgba(255,255,255,0.25);
+
+  /* Interactive */
+  --color-btn-primary-bg:     var(--color-brand-red);
+  --color-btn-primary-text:   #FFFFFF;
+  --color-btn-primary-hover:  var(--color-brand-red-hover);
+  --color-btn-secondary-bg:   transparent;
+  --color-btn-secondary-text: #FFFFFF;
+  --color-btn-secondary-border: rgba(255,255,255,0.3);
+  --color-btn-outline-hover:  rgba(255,255,255,0.06);
+
+  /* Pill/Tag (Topics section) */
+  --tag-bg:           transparent;
+  --tag-text:         var(--text-primary);
+  --tag-border:       var(--border-tag);
+  --tag-icon-bg:      var(--color-brand-red);
+  --tag-icon-text:    #FFFFFF;
+
+  /* Decorative dots */
+  --dot-filled:       var(--color-brand-red);
+  --dot-outline:      rgba(255,255,255,0.4);
+
+  /* Overlay card (instructor card dark bg) */
+  --instructor-card-bg:     rgba(20, 8, 10, 0.85);
+  --instructor-card-border: rgba(255,255,255,0.1);
+
+  /* Avatar ring */
+  --avatar-ring:      var(--bg-surface);
+
+  /* Star / sparkle */
+  --sparkle-color:    #FFFFFF;
+}
+
+/* ============================================================
+   LIGHT MODE
+   ============================================================ */
+
+[data-theme="light"] {
+  /* Backgrounds */
+  --bg-page:          #FAF6F4;
+  --bg-surface:       #FFFFFF;
+  --bg-card:          #FFFFFF;
+  --bg-card-alt:      var(--color-card-warm);
+  --bg-nav:           #FFFFFF;
+  --bg-accent-block:  var(--color-brand-red);
+  --bg-input:         #F2EDEB;
+  --bg-tag:           transparent;
+  --bg-tag-active:    var(--color-brand-red);
+  --bg-stripe:        repeating-linear-gradient(
+                        to right,
+                        transparent,
+                        transparent 60px,
+                        rgba(0,0,0,0.05) 60px,
+                        rgba(0,0,0,0.05) 62px
+                      );
+
+  /* Text */
+  --text-primary:     #140609;
+  --text-secondary:   rgba(20,6,9,0.65);
+  --text-muted:       rgba(20,6,9,0.40);
+  --text-accent:      var(--color-brand-red);
+  --text-on-red:      #FFFFFF;
+  --text-inverse:     #FFFFFF;
+
+  /* Borders */
+  --border-default:   rgba(0,0,0,0.10);
+  --border-subtle:    rgba(0,0,0,0.06);
+  --border-strong:    rgba(0,0,0,0.20);
+  --border-accent:    var(--color-brand-red);
+  --border-tag:       rgba(0,0,0,0.20);
+
+  /* Interactive */
+  --color-btn-primary-bg:     var(--color-brand-red);
+  --color-btn-primary-text:   #FFFFFF;
+  --color-btn-primary-hover:  var(--color-brand-red-hover);
+  --color-btn-secondary-bg:   transparent;
+  --color-btn-secondary-text: var(--color-dark-900);
+  --color-btn-secondary-border: rgba(0,0,0,0.25);
+  --color-btn-outline-hover:  rgba(0,0,0,0.04);
+
+  /* Pill/Tag */
+  --tag-bg:           transparent;
+  --tag-text:         var(--text-primary);
+  --tag-border:       var(--border-tag);
+  --tag-icon-bg:      var(--color-brand-red);
+  --tag-icon-text:    #FFFFFF;
+
+  /* Decorative dots */
+  --dot-filled:       var(--color-brand-red);
+  --dot-outline:      rgba(0,0,0,0.25);
+
+  /* Overlay card */
+  --instructor-card-bg:     rgba(255,255,255,0.90);
+  --instructor-card-border: rgba(0,0,0,0.10);
+
+  /* Avatar ring */
+  --avatar-ring:      var(--bg-surface);
+
+  /* Star / sparkle */
+  --sparkle-color:    var(--color-dark-900);
+
+  /* Shadows (lighter for light mode) */
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md:  0 4px 12px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.07);
+  --shadow-lg:  0 10px 30px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-xl:  0 20px 50px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.10);
+}
+
+/* ============================================================
+   SYSTEM PREFERENCE AUTO-DETECTION
+   (applies dark or light based on OS if no [data-theme] set)
+   ============================================================ */
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    /* Backgrounds */
+    --bg-page:          #FAF6F4;
+    --bg-surface:       #FFFFFF;
+    --bg-card:          #FFFFFF;
+    --bg-card-alt:      var(--color-card-warm);
+    --bg-nav:           #FFFFFF;
+    --bg-accent-block:  var(--color-brand-red);
+    --bg-input:         #F2EDEB;
+    --bg-stripe:        repeating-linear-gradient(
+                          to right,
+                          transparent,
+                          transparent 60px,
+                          rgba(0,0,0,0.05) 60px,
+                          rgba(0,0,0,0.05) 62px
+                        );
+
+    /* Text */
+    --text-primary:     #140609;
+    --text-secondary:   rgba(20,6,9,0.65);
+    --text-muted:       rgba(20,6,9,0.40);
+    --text-accent:      var(--color-brand-red);
+    --text-on-red:      #FFFFFF;
+    --text-inverse:     #FFFFFF;
+
+    /* Borders */
+    --border-default:   rgba(0,0,0,0.10);
+    --border-subtle:    rgba(0,0,0,0.06);
+    --border-strong:    rgba(0,0,0,0.20);
+    --border-accent:    var(--color-brand-red);
+    --border-tag:       rgba(0,0,0,0.20);
+
+    /* Interactive */
+    --color-btn-primary-bg:      var(--color-brand-red);
+    --color-btn-primary-text:    #FFFFFF;
+    --color-btn-primary-hover:   var(--color-brand-red-hover);
+    --color-btn-secondary-bg:    transparent;
+    --color-btn-secondary-text:  var(--color-dark-900);
+    --color-btn-secondary-border:rgba(0,0,0,0.25);
+    --color-btn-outline-hover:   rgba(0,0,0,0.04);
+
+    /* Tags */
+    --tag-bg:       transparent;
+    --tag-text:     var(--text-primary);
+    --tag-border:   var(--border-tag);
+    --tag-icon-bg:  var(--color-brand-red);
+    --tag-icon-text:#FFFFFF;
+
+    /* Decorative */
+    --dot-filled:   var(--color-brand-red);
+    --dot-outline:  rgba(0,0,0,0.25);
+
+    /* Overlay card */
+    --instructor-card-bg:     rgba(255,255,255,0.90);
+    --instructor-card-border: rgba(0,0,0,0.10);
+    --avatar-ring:            var(--bg-surface);
+    --sparkle-color:          var(--color-dark-900);
+
+    /* Shadows */
+    --shadow-sm:  0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md:  0 4px 12px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.07);
+    --shadow-lg:  0 10px 30px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-xl:  0 20px 50px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.10);
+  }
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  background-color: var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--duration-slow) var(--ease-out),
+              color var(--duration-slow) var(--ease-out);
+}
+
+/* ── Typography Base ──────────────────────────────────────── */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+}
+
+h1 { font-size: var(--text-hero); }
+h2 { font-size: var(--text-4xl); }
+h3 { font-size: var(--text-2xl); }
+h4 { font-size: var(--text-xl); }
+h5 { font-size: var(--text-lg); }
+h6 { font-size: var(--text-md); }
+
+p {
+  color: var(--text-secondary);
+  line-height: var(--leading-normal);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+a:hover { color: var(--color-brand-red); }
+
+strong { font-weight: var(--fw-bold); }
+em     { font-style: italic; }
+
+img, video, svg {
+  display: block;
+  max-width: 100%;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+ul, ol { list-style: none; }
+
+/* ── Accent Text (e.g., "SKILLS" in red) ─────────────────── */
+.text-accent  { color: var(--text-accent); }
+.text-muted   { color: var(--text-muted); }
+.text-on-red  { color: var(--text-on-red); }
+
+/* ── Layout Container ─────────────────────────────────────── */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+/* ── Stripe Background Texture ────────────────────────────── */
+
+.bg-stripe {
+  background-color: var(--bg-page);
+  background-image: var(--bg-stripe);
+}
+
+/* ── Navigation ───────────────────────────────────────────── */
+
+.nav {
+  height: var(--nav-height);
+  background-color: var(--bg-nav);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  transition: background-color var(--duration-slow) var(--ease-out);
+}
+
+.nav-link {
+  font-family: var(--font-body);
+  font-weight: var(--fw-medium);
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.nav-link:hover { color: var(--text-primary); }
+
+/* ── Buttons ──────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-weight: var(--fw-semibold);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  cursor: pointer;
+  border: none;
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    color            var(--duration-base) var(--ease-out),
+    box-shadow       var(--duration-base) var(--ease-out),
+    transform        var(--duration-fast) var(--ease-spring);
+  white-space: nowrap;
+}
+
+.btn:active { transform: scale(0.97); }
+
+/* Primary — Red filled */
+.btn-primary {
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+  box-shadow: var(--shadow-red);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-btn-primary-hover);
+  box-shadow: 0 12px 32px rgba(232,57,29,0.5);
+}
+
+/* Secondary — outlined */
+.btn-secondary {
+  background-color: var(--color-btn-secondary-bg);
+  color: var(--color-btn-secondary-text);
+  border: 1.5px solid var(--color-btn-secondary-border);
+}
+
+.btn-secondary:hover { background-color: var(--color-btn-outline-hover); }
+
+/* Icon button (circle) */
+.btn-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border-radius: var(--radius-full);
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── Cards ────────────────────────────────────────────────── */
+
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition:
+    background-color var(--duration-slow) var(--ease-out),
+    border-color     var(--duration-slow) var(--ease-out),
+    box-shadow       var(--duration-base) var(--ease-out);
+}
+
+.card:hover { box-shadow: var(--shadow-lg); }
+
+.card-warm {
+  background-color: var(--bg-card-alt);
+}
+
+/* Course count badge (e.g., "200+ COURSES") */
+.badge-course {
+  font-family: var(--font-display);
+  font-weight: var(--fw-extrabold);
+  font-size: var(--text-xl);
+  color: var(--text-primary);
+  letter-spacing: var(--tracking-tight);
+}
+
+.badge-course span {
+  display: block;
+  font-size: var(--text-xs);
+  font-family: var(--font-body);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ── Avatar Stack ─────────────────────────────────────────── */
+
+.avatar-stack {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-full);
+  border: 2.5px solid var(--avatar-ring);
+  object-fit: cover;
+  margin-left: -0.6rem;
+  flex-shrink: 0;
+  transition: border-color var(--duration-slow) var(--ease-out);
+}
+
+.avatar:first-child { margin-left: 0; }
+
+/* ── Topic Tags (pill chips) ──────────────────────────────── */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--tag-border);
+  background-color: var(--tag-bg);
+  color: var(--tag-text);
+  font-family: var(--font-body);
+  font-weight: var(--fw-semibold);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  transition:
+    border-color     var(--duration-base) var(--ease-out),
+    background-color var(--duration-base) var(--ease-out),
+    color            var(--duration-base) var(--ease-out);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tag:hover {
+  border-color: var(--border-accent);
+  color: var(--color-brand-red);
+}
+
+/* Icon inside tag (grid icon, etc.) */
+.tag-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--tag-icon-bg);
+  color: var(--tag-icon-text);
+  flex-shrink: 0;
+}
+
+/* ── Decorative Dot Pair ──────────────────────────────────── */
+
+.dot-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  width: fit-content;
+}
+
+.dot {
+  width: 1.375rem;
+  height: 1.375rem;
+  border-radius: var(--radius-full);
+}
+
+.dot-filled  { background-color: var(--dot-filled); }
+.dot-outline {
+  background-color: transparent;
+  border: 2px solid var(--dot-outline);
+}
+
+/* ── Sparkle / Star Icon ──────────────────────────────────── */
+
+.sparkle {
+  display: inline-block;
+  color: var(--sparkle-color);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+/* ── Instructor / Testimonial Overlay Card ────────────────── */
+
+.instructor-card {
+  background-color: var(--instructor-card-bg);
+  border: 1px solid var(--instructor-card-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: var(--space-4) var(--space-5);
+  transition:
+    background-color var(--duration-slow) var(--ease-out),
+    border-color     var(--duration-slow) var(--ease-out);
+}
+
+.instructor-name {
+  font-family: var(--font-display);
+  font-weight: var(--fw-extrabold);
+  font-size: var(--text-3xl);
+  color: var(--text-on-red);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.instructor-title {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: rgba(255,255,255,0.75);
+  font-weight: var(--fw-medium);
+  margin-top: var(--space-1);
+}
+
+/* ── Section Labels ───────────────────────────────────────── */
+
+.label-overline {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ── Dividers ─────────────────────────────────────────────── */
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--border-default);
+}
+
+/* ── Accent Block (full-bleed red panel, right of nav) ────── */
+
+.accent-block {
+  background-color: var(--bg-accent-block);
+}
+
+/* ── Input ────────────────────────────────────────────────── */
+
+.input {
+  width: 100%;
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  outline: none;
+  transition:
+    border-color     var(--duration-base) var(--ease-out),
+    background-color var(--duration-slow) var(--ease-out);
+}
+
+.input:focus {
+  border-color: var(--border-accent);
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+/* ── Utilities ────────────────────────────────────────────── */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Theme Transition (smooth mode-switch) ────────────────── */
+
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: var(--duration-slow);
+  transition-timing-function: var(--ease-out);
+}
+
+/* Reset transition for interactive elements to keep them snappy */
+button, a, input, [role="button"] {
+  transition-duration: var(--duration-base);
+}

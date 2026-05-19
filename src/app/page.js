@@ -1,7 +1,12 @@
-import Image from "next/image";
+import HeroPage from "./components/hero/page";
+import TrendingIdeas from "./components/hero/Ideas/page";
 
 export default function Home() {
   return (
-    <h1>nigga</h1>
+    <>
+      <HeroPage />
+      <TrendingIdeas />
+    </>
   );
 }
+ 

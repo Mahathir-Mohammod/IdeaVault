@@ -478,6 +478,7 @@ export default function Navbar() {
       `}</style>
 
       <nav className="nav-bar">
+        <div className="flex items-center w-full" style={{ maxWidth: "1600px", margin: "0 auto" }}>
         {/* ── Logo ── */}
         <Link href="/" className="nav-logo">
           <div className="nav-logo-icon">
@@ -609,6 +610,7 @@ export default function Navbar() {
           >
             {mobileOpen ? <IconX /> : <IconMenu />}
           </button>
+        </div>
         </div>
       </nav>
 
