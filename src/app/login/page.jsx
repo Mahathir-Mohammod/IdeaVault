@@ -44,97 +44,97 @@ export default function LoginPage() {
       <style>{`
         :root,
         [data-theme="light"] {
-          --auth-page-bg:       #f4f5f7;
-          --auth-glow-a:        rgba(99,102,241,0.10);
-          --auth-glow-b:        rgba(168,85,247,0.07);
+          --auth-page-bg:       var(--bg-page);
+          --auth-glow-a:        color-mix(in srgb, var(--color-brand-red) 10%, transparent);
+          --auth-glow-b:        color-mix(in srgb, var(--color-brand-red-soft) 7%, transparent);
 
-          --auth-card-bg:       rgba(255,255,255,0.88);
-          --auth-card-border:   rgba(0,0,0,0.07);
-          --auth-card-shadow:   0 24px 48px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.9);
+          --auth-card-bg:       color-mix(in srgb, var(--bg-surface) 88%, transparent);
+          --auth-card-border:   var(--border-default);
+          --auth-card-shadow:   0 24px 48px rgba(0,0,0,0.10), inset 0 1px 0 color-mix(in srgb, var(--bg-surface) 90%, transparent);
 
-          --auth-heading:       #0f0f14;
-          --auth-sub:           rgba(15,15,20,0.45);
-          --auth-label:         rgba(15,15,20,0.55);
-          --auth-footer:        rgba(15,15,20,0.40);
+          --auth-heading:       var(--text-primary);
+          --auth-sub:           var(--text-muted);
+          --auth-label:         var(--text-secondary);
+          --auth-footer:        var(--text-muted);
 
-          --auth-input-bg:      rgba(0,0,0,0.03);
-          --auth-input-bd:      rgba(0,0,0,0.10);
-          --auth-input-color:   #0f0f14;
-          --auth-input-ph:      rgba(0,0,0,0.22);
-          --auth-focus-bg:      rgba(99,102,241,0.05);
-          --auth-focus-bd:      rgba(99,102,241,0.50);
-          --auth-focus-sh:      0 0 0 3px rgba(99,102,241,0.10);
+          --auth-input-bg:      var(--bg-input);
+          --auth-input-bd:      var(--border-default);
+          --auth-input-color:   var(--text-primary);
+          --auth-input-ph:      var(--text-muted);
+          --auth-focus-bg:      color-mix(in srgb, var(--color-brand-red) 5%, transparent);
+          --auth-focus-bd:      var(--border-accent);
+          --auth-focus-sh:      0 0 0 3px color-mix(in srgb, var(--color-brand-red) 12%, transparent);
 
-          --auth-google-bg:     rgba(0,0,0,0.03);
-          --auth-google-bd:     rgba(0,0,0,0.10);
-          --auth-google-color:  rgba(15,15,20,0.80);
-          --auth-google-hbg:    rgba(0,0,0,0.06);
-          --auth-google-hbd:    rgba(0,0,0,0.16);
+          --auth-google-bg:     var(--bg-input);
+          --auth-google-bd:     var(--border-default);
+          --auth-google-color:  var(--text-primary);
+          --auth-google-hbg:    color-mix(in srgb, var(--color-brand-red) 4%, transparent);
+          --auth-google-hbd:    var(--border-strong);
 
-          --auth-div-line:      rgba(0,0,0,0.08);
-          --auth-div-text:      rgba(0,0,0,0.28);
+          --auth-div-line:      var(--border-default);
+          --auth-div-text:      var(--text-muted);
 
-          --auth-eye:           rgba(0,0,0,0.28);
-          --auth-eye-hover:     rgba(0,0,0,0.65);
+          --auth-eye:           var(--text-muted);
+          --auth-eye-hover:     var(--text-secondary);
 
-          --auth-forgot:        rgba(99,102,241,0.80);
-          --auth-forgot-hover:  #6366f1;
+          --auth-forgot:        color-mix(in srgb, var(--color-brand-red) 80%, transparent);
+          --auth-forgot-hover:  var(--color-brand-red);
 
-          --auth-link:          #6366f1;
-          --auth-link-hover:    #4f46e5;
+          --auth-link:          var(--color-brand-red);
+          --auth-link-hover:    var(--color-brand-red-hover);
 
-          --auth-toast-err-bg:  rgba(239,68,68,0.10);
-          --auth-toast-err-bd:  rgba(239,68,68,0.25);
+          --auth-toast-err-bg:  color-mix(in srgb, #ef4444 12%, transparent);
+          --auth-toast-err-bd:  color-mix(in srgb, #ef4444 28%, transparent);
           --auth-toast-err-txt: #b91c1c;
-          --auth-toast-ok-bg:   rgba(34,197,94,0.10);
-          --auth-toast-ok-bd:   rgba(34,197,94,0.25);
+          --auth-toast-ok-bg:   color-mix(in srgb, #22c55e 12%, transparent);
+          --auth-toast-ok-bd:   color-mix(in srgb, #22c55e 28%, transparent);
           --auth-toast-ok-txt:  #15803d;
         }
         [data-theme="dark"] {
-          --auth-page-bg:       #0a0a0f;
-          --auth-glow-a:        rgba(99,102,241,0.18);
-          --auth-glow-b:        rgba(168,85,247,0.12);
+          --auth-page-bg:       var(--bg-page);
+          --auth-glow-a:        color-mix(in srgb, var(--color-brand-red) 16%, transparent);
+          --auth-glow-b:        color-mix(in srgb, var(--color-brand-red-soft) 10%, transparent);
 
-          --auth-card-bg:       rgba(255,255,255,0.03);
-          --auth-card-border:   rgba(255,255,255,0.08);
-          --auth-card-shadow:   0 32px 64px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06);
+          --auth-card-bg:       color-mix(in srgb, var(--bg-surface) 5%, transparent);
+          --auth-card-border:   var(--border-default);
+          --auth-card-shadow:   0 32px 64px rgba(0,0,0,0.45), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
 
-          --auth-heading:       #ffffff;
-          --auth-sub:           rgba(255,255,255,0.38);
-          --auth-label:         rgba(255,255,255,0.55);
-          --auth-footer:        rgba(255,255,255,0.30);
+          --auth-heading:       var(--text-primary);
+          --auth-sub:           var(--text-muted);
+          --auth-label:         var(--text-secondary);
+          --auth-footer:        var(--text-muted);
 
-          --auth-input-bg:      rgba(255,255,255,0.04);
-          --auth-input-bd:      rgba(255,255,255,0.08);
-          --auth-input-color:   #ffffff;
-          --auth-input-ph:      rgba(255,255,255,0.20);
-          --auth-focus-bg:      rgba(99,102,241,0.07);
-          --auth-focus-bd:      rgba(99,102,241,0.60);
-          --auth-focus-sh:      0 0 0 3px rgba(99,102,241,0.12);
+          --auth-input-bg:      var(--bg-input);
+          --auth-input-bd:      var(--border-default);
+          --auth-input-color:   var(--text-primary);
+          --auth-input-ph:      var(--text-muted);
+          --auth-focus-bg:      color-mix(in srgb, var(--color-brand-red) 8%, transparent);
+          --auth-focus-bd:      var(--border-accent);
+          --auth-focus-sh:      0 0 0 3px color-mix(in srgb, var(--color-brand-red) 14%, transparent);
 
-          --auth-google-bg:     rgba(255,255,255,0.05);
-          --auth-google-bd:     rgba(255,255,255,0.10);
-          --auth-google-color:  rgba(255,255,255,0.82);
-          --auth-google-hbg:    rgba(255,255,255,0.09);
-          --auth-google-hbd:    rgba(255,255,255,0.18);
+          --auth-google-bg:     var(--bg-input);
+          --auth-google-bd:     var(--border-default);
+          --auth-google-color:  var(--text-primary);
+          --auth-google-hbg:    color-mix(in srgb, var(--color-brand-red) 6%, transparent);
+          --auth-google-hbd:    var(--border-strong);
 
-          --auth-div-line:      rgba(255,255,255,0.07);
-          --auth-div-text:      rgba(255,255,255,0.22);
+          --auth-div-line:      var(--border-default);
+          --auth-div-text:      var(--text-muted);
 
-          --auth-eye:           rgba(255,255,255,0.28);
-          --auth-eye-hover:     rgba(255,255,255,0.70);
+          --auth-eye:           var(--text-muted);
+          --auth-eye-hover:     var(--text-secondary);
 
-          --auth-forgot:        rgba(129,140,248,0.80);
-          --auth-forgot-hover:  #818cf8;
+          --auth-forgot:        color-mix(in srgb, var(--color-brand-red-soft) 80%, transparent);
+          --auth-forgot-hover:  var(--color-brand-red-soft);
 
-          --auth-link:          #818cf8;
-          --auth-link-hover:    #a5b4fc;
+          --auth-link:          var(--color-brand-red-soft);
+          --auth-link-hover:    var(--color-brand-red);
 
-          --auth-toast-err-bg:  rgba(239,68,68,0.15);
-          --auth-toast-err-bd:  rgba(239,68,68,0.30);
+          --auth-toast-err-bg:  color-mix(in srgb, #ef4444 16%, transparent);
+          --auth-toast-err-bd:  color-mix(in srgb, #ef4444 32%, transparent);
           --auth-toast-err-txt: #fca5a5;
-          --auth-toast-ok-bg:   rgba(34,197,94,0.15);
-          --auth-toast-ok-bd:   rgba(34,197,94,0.30);
+          --auth-toast-ok-bg:   color-mix(in srgb, #22c55e 16%, transparent);
+          --auth-toast-ok-bd:   color-mix(in srgb, #22c55e 32%, transparent);
           --auth-toast-ok-txt:  #86efac;
         }
 
@@ -146,7 +146,7 @@ export default function LoginPage() {
           background-image:
             radial-gradient(ellipse 80% 50% at 20% -10%, var(--auth-glow-a) 0%, transparent 60%),
             radial-gradient(ellipse 60% 40% at 85% 110%, var(--auth-glow-b) 0%, transparent 60%);
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-body);
           transition: background-color 0.3s;
         }
 
@@ -172,16 +172,16 @@ export default function LoginPage() {
         }
         .auth-logo-icon {
           width:36px; height:36px;
-          background: linear-gradient(135deg,#6366f1,#a855f7);
+          background: var(--color-brand-red);
           border-radius:10px; display:flex; align-items:center; justify-content:center;
         }
         .auth-logo-text {
-          font-family:'Syne',sans-serif; font-weight:800; font-size:1.25rem;
+          font-family:var(--font-display); font-weight:800; font-size:1.25rem;
           color: var(--auth-heading); letter-spacing:-0.02em; transition:color 0.3s;
         }
 
         .auth-heading {
-          font-family:'Syne',sans-serif; font-size:1.75rem; font-weight:700;
+          font-family:var(--font-display); font-size:1.75rem; font-weight:700;
           color: var(--auth-heading); text-align:center; letter-spacing:-0.03em;
           margin:0; transition:color 0.3s;
         }
@@ -196,7 +196,7 @@ export default function LoginPage() {
           background: var(--auth-google-bg); border:1px solid var(--auth-google-bd);
           border-radius:12px; color: var(--auth-google-color);
           font-size:0.9rem; font-weight:500; cursor:pointer;
-          font-family:'DM Sans',sans-serif; transition:all 0.2s;
+          font-family:var(--font-body); transition:all 0.2s;
         }
         .btn-google:hover:not(:disabled) {
           background: var(--auth-google-hbg); border-color: var(--auth-google-hbd);
@@ -222,7 +222,7 @@ export default function LoginPage() {
           width:100%; padding:0.7rem 1rem;
           background: var(--auth-input-bg); border:1px solid var(--auth-input-bd);
           border-radius:10px; color: var(--auth-input-color);
-          font-size:0.9rem; font-family:'DM Sans',sans-serif;
+          font-size:0.9rem; font-family:var(--font-body);
           outline:none; box-sizing:border-box;
           transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, color 0.3s;
         }
@@ -252,16 +252,16 @@ export default function LoginPage() {
 
         .btn-submit {
           width:100%; padding:0.75rem 1rem;
-          background: linear-gradient(135deg,#6366f1,#7c3aed);
+          background: var(--color-brand-red);
           border:none; border-radius:12px;
           color:#fff; font-size:0.92rem; font-weight:600;
-          font-family:'DM Sans',sans-serif; cursor:pointer;
+          font-family:var(--font-body); cursor:pointer;
           margin-top:0.5rem; letter-spacing:0.01em;
           transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
         }
         .btn-submit:hover:not(:disabled) {
           transform:translateY(-1px);
-          box-shadow: 0 8px 24px rgba(99,102,241,0.35);
+          box-shadow: var(--shadow-red);
         }
         .btn-submit:active:not(:disabled) { transform:translateY(0); }
         .btn-submit:disabled { opacity:0.6; cursor:not-allowed; }
@@ -296,7 +296,7 @@ export default function LoginPage() {
         .toast-inner {
           display:flex; align-items:center; gap:10px;
           padding:0.75rem 1.25rem; border-radius:12px;
-          font-size:0.88rem; font-family:'DM Sans',sans-serif;
+          font-size:0.88rem; font-family:var(--font-body);
           font-weight:500; white-space:nowrap;
           box-shadow:0 8px 32px rgba(0,0,0,0.2);
         }
@@ -315,7 +315,7 @@ export default function LoginPage() {
 
           <div className="auth-logo">
             <div className="auth-logo-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary-content" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
             </svg>
             </div>

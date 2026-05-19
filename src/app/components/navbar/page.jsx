@@ -33,17 +33,6 @@ export default function Navbar() {
 
   const isActive = (href) => pathname === href;
 
-  const NavLink = ({ href, icon, children, onClick }) => (
-    <Link
-      href={href}
-      onClick={onClick}
-      className={`nav-link ${isActive(href) ? "nav-link-active" : ""}`}
-    >
-      {icon}
-      {children}
-    </Link>
-  );
-
   return (
     <>
       <style>{`
@@ -54,54 +43,54 @@ export default function Navbar() {
           --nav-border:        rgba(0,0,0,0.07);
           --nav-shadow:        0 1px 24px rgba(0,0,0,0.07);
 
-          --nav-logo-text:     #0f0f14;
-          --nav-logo-accent:   #6366f1;
+          --nav-logo-text:     var(--color-dark-900);
+          --nav-logo-accent:   var(--color-brand-red);
 
           --nav-link:          rgba(15,15,20,0.55);
-          --nav-link-hover-bg: rgba(99,102,241,0.07);
-          --nav-link-hover:    #6366f1;
-          --nav-link-active-bg:rgba(99,102,241,0.10);
-          --nav-link-active:   #6366f1;
-          --nav-link-active-bd:rgba(99,102,241,0.30);
+          --nav-link-hover-bg: color-mix(in srgb, var(--color-brand-red) 8%, transparent);
+          --nav-link-hover:    var(--color-brand-red);
+          --nav-link-active-bg: color-mix(in srgb, var(--color-brand-red) 12%, transparent);
+          --nav-link-active:   var(--color-brand-red);
+          --nav-link-active-bd: color-mix(in srgb, var(--color-brand-red) 30%, transparent);
 
           --nav-icon-btn-bg:   transparent;
-          --nav-icon-btn-hover:rgba(0,0,0,0.05);
+          --nav-icon-btn-hover: rgba(0,0,0,0.05);
           --nav-icon-color:    rgba(15,15,20,0.50);
           --nav-icon-hover:    rgba(15,15,20,0.85);
 
-          --nav-sun-color:     #d97706;
-          --nav-moon-color:    #6366f1;
+          --nav-sun-color:     var(--color-brand-red);
+          --nav-moon-color:    var(--color-brand-red);
 
           --nav-login-bg:      transparent;
           --nav-login-bd:      rgba(0,0,0,0.12);
           --nav-login-color:   rgba(15,15,20,0.70);
           --nav-login-hbg:     rgba(0,0,0,0.05);
 
-          --nav-avatar-bg:     linear-gradient(135deg,#6366f1,#a855f7);
+          --nav-avatar-bg:     var(--color-brand-red);
           --nav-avatar-color:  #ffffff;
-          --nav-avatar-ring:   rgba(99,102,241,0.30);
+          --nav-avatar-ring:   color-mix(in srgb, var(--color-brand-red) 30%, transparent);
 
           --nav-drop-bg:       rgba(255,255,255,0.96);
           --nav-drop-border:   rgba(0,0,0,0.08);
           --nav-drop-shadow:   0 16px 48px rgba(0,0,0,0.14);
           --nav-drop-item:     rgba(15,15,20,0.65);
-          --nav-drop-item-hbg: rgba(99,102,241,0.07);
-          --nav-drop-item-hc:  #6366f1;
+          --nav-drop-item-hbg: color-mix(in srgb, var(--color-brand-red) 8%, transparent);
+          --nav-drop-item-hc:  var(--color-brand-red);
           --nav-drop-div:      rgba(0,0,0,0.07);
-          --nav-drop-header:   #0f0f14;
+          --nav-drop-header:   var(--color-dark-900);
           --nav-drop-email:    rgba(15,15,20,0.45);
-          --nav-drop-logout:   #dc2626;
-          --nav-drop-logout-hbg: rgba(220,38,38,0.07);
+          --nav-drop-logout:   var(--color-brand-red);
+          --nav-drop-logout-hbg: color-mix(in srgb, var(--color-brand-red) 10%, transparent);
 
           --nav-mobile-bg:     rgba(255,255,255,0.97);
           --nav-mobile-border: rgba(0,0,0,0.07);
           --nav-mobile-div:    rgba(0,0,0,0.07);
           --nav-mobile-label:  rgba(15,15,20,0.35);
           --nav-mobile-link:   rgba(15,15,20,0.65);
-          --nav-mobile-link-hbg: rgba(99,102,241,0.07);
-          --nav-mobile-link-hc:  #6366f1;
-          --nav-mobile-active-bg: rgba(99,102,241,0.10);
-          --nav-mobile-active-c:  #6366f1;
+          --nav-mobile-link-hbg: color-mix(in srgb, var(--color-brand-red) 8%, transparent);
+          --nav-mobile-link-hc:  var(--color-brand-red);
+          --nav-mobile-active-bg: color-mix(in srgb, var(--color-brand-red) 12%, transparent);
+          --nav-mobile-active-c:  var(--color-brand-red);
 
           --nav-divider:       rgba(0,0,0,0.07);
         }
@@ -113,53 +102,53 @@ export default function Navbar() {
           --nav-shadow:        0 1px 24px rgba(0,0,0,0.35);
 
           --nav-logo-text:     #ffffff;
-          --nav-logo-accent:   #818cf8;
+          --nav-logo-accent:   var(--color-brand-red-soft);
 
           --nav-link:          rgba(255,255,255,0.45);
-          --nav-link-hover-bg: rgba(99,102,241,0.10);
-          --nav-link-hover:    #a5b4fc;
-          --nav-link-active-bg:rgba(99,102,241,0.14);
-          --nav-link-active:   #a5b4fc;
-          --nav-link-active-bd:rgba(129,140,248,0.35);
+          --nav-link-hover-bg: color-mix(in srgb, var(--color-brand-red) 12%, transparent);
+          --nav-link-hover:    var(--color-brand-red-soft);
+          --nav-link-active-bg: color-mix(in srgb, var(--color-brand-red) 16%, transparent);
+          --nav-link-active:   var(--color-brand-red-soft);
+          --nav-link-active-bd: color-mix(in srgb, var(--color-brand-red-soft) 35%, transparent);
 
           --nav-icon-btn-bg:   transparent;
-          --nav-icon-btn-hover:rgba(255,255,255,0.06);
+          --nav-icon-btn-hover: rgba(255,255,255,0.06);
           --nav-icon-color:    rgba(255,255,255,0.38);
           --nav-icon-hover:    rgba(255,255,255,0.85);
 
           --nav-sun-color:     #fbbf24;
-          --nav-moon-color:    #a5b4fc;
+          --nav-moon-color:    var(--color-brand-red-soft);
 
           --nav-login-bg:      transparent;
           --nav-login-bd:      rgba(255,255,255,0.12);
           --nav-login-color:   rgba(255,255,255,0.60);
           --nav-login-hbg:     rgba(255,255,255,0.06);
 
-          --nav-avatar-bg:     linear-gradient(135deg,#6366f1,#a855f7);
+          --nav-avatar-bg:     var(--color-brand-red);
           --nav-avatar-color:  #ffffff;
-          --nav-avatar-ring:   rgba(129,140,248,0.40);
+          --nav-avatar-ring:   color-mix(in srgb, var(--color-brand-red-soft) 40%, transparent);
 
           --nav-drop-bg:       rgba(15,15,22,0.97);
           --nav-drop-border:   rgba(255,255,255,0.08);
           --nav-drop-shadow:   0 16px 48px rgba(0,0,0,0.50);
           --nav-drop-item:     rgba(255,255,255,0.55);
-          --nav-drop-item-hbg: rgba(99,102,241,0.12);
-          --nav-drop-item-hc:  #a5b4fc;
+          --nav-drop-item-hbg: color-mix(in srgb, var(--color-brand-red) 12%, transparent);
+          --nav-drop-item-hc:  var(--color-brand-red-soft);
           --nav-drop-div:      rgba(255,255,255,0.07);
           --nav-drop-header:   #ffffff;
           --nav-drop-email:    rgba(255,255,255,0.38);
-          --nav-drop-logout:   #f87171;
-          --nav-drop-logout-hbg: rgba(248,113,113,0.10);
+          --nav-drop-logout:   var(--color-brand-red-soft);
+          --nav-drop-logout-hbg: color-mix(in srgb, var(--color-brand-red) 12%, transparent);
 
           --nav-mobile-bg:     rgba(10,10,15,0.98);
           --nav-mobile-border: rgba(255,255,255,0.07);
           --nav-mobile-div:    rgba(255,255,255,0.07);
           --nav-mobile-label:  rgba(255,255,255,0.25);
           --nav-mobile-link:   rgba(255,255,255,0.55);
-          --nav-mobile-link-hbg: rgba(99,102,241,0.10);
-          --nav-mobile-link-hc:  #a5b4fc;
-          --nav-mobile-active-bg: rgba(99,102,241,0.14);
-          --nav-mobile-active-c:  #a5b4fc;
+          --nav-mobile-link-hbg: color-mix(in srgb, var(--color-brand-red) 12%, transparent);
+          --nav-mobile-link-hc:  var(--color-brand-red-soft);
+          --nav-mobile-active-bg: color-mix(in srgb, var(--color-brand-red) 16%, transparent);
+          --nav-mobile-active-c:  var(--color-brand-red-soft);
 
           --nav-divider:       rgba(255,255,255,0.07);
         }
@@ -173,7 +162,7 @@ export default function Navbar() {
           border-bottom: 1px solid var(--nav-border);
           box-shadow: var(--nav-shadow);
           backdrop-filter: blur(18px);
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-body);
           transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
         }
 
@@ -184,12 +173,12 @@ export default function Navbar() {
         }
         .nav-logo-icon {
           width: 34px; height: 34px; border-radius: 9px;
-          background: linear-gradient(135deg, #6366f1, #a855f7);
+          background: var(--color-brand-red);
           display: flex; align-items: center; justify-content: center;
           flex-shrink: 0;
         }
         .nav-logo-text {
-          font-family: 'Syne', sans-serif;
+          font-family: var(--font-display);
           font-weight: 800; font-size: 1.15rem;
           color: var(--nav-logo-text);
           letter-spacing: -0.025em;
@@ -261,7 +250,7 @@ export default function Navbar() {
           border: 1px solid var(--nav-login-bd);
           color: var(--nav-login-color);
           font-size: 0.85rem; font-weight: 500;
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-body);
           cursor: pointer; text-decoration: none;
           transition: all 0.18s;
           display: inline-flex; align-items: center;
@@ -271,17 +260,17 @@ export default function Navbar() {
         }
         .btn-nav-register {
           padding: 0.38rem 0.85rem; border-radius: 8px;
-          background: linear-gradient(135deg, #6366f1, #7c3aed);
+          background: var(--color-brand-red);
           border: none;
           color: #fff;
           font-size: 0.85rem; font-weight: 600;
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-body);
           cursor: pointer; text-decoration: none;
           transition: all 0.18s;
           display: inline-flex; align-items: center;
         }
         .btn-nav-register:hover {
-          box-shadow: 0 4px 14px rgba(99,102,241,0.35);
+          box-shadow: var(--shadow-red);
           transform: translateY(-1px);
         }
 
@@ -291,7 +280,7 @@ export default function Navbar() {
           background: var(--nav-avatar-bg);
           border: 2px solid var(--nav-avatar-ring);
           color: var(--nav-avatar-color);
-          font-family: 'Syne', sans-serif;
+          font-family: var(--font-display);
           font-weight: 700; font-size: 0.78rem;
           cursor: pointer; display: flex;
           align-items: center; justify-content: center;
@@ -332,7 +321,7 @@ export default function Navbar() {
           width: 36px; height: 36px; border-radius: 50%;
           background: var(--nav-avatar-bg);
           display: flex; align-items: center; justify-content: center;
-          color: #fff; font-family: 'Syne', sans-serif;
+          color: #fff; font-family: var(--font-display);
           font-weight: 700; font-size: 0.78rem; flex-shrink: 0;
         }
         .drop-name {
@@ -360,7 +349,7 @@ export default function Navbar() {
           color: var(--nav-drop-item);
           text-decoration: none; background: none; border: none;
           cursor: pointer; width: 100%;
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-body);
           transition: all 0.15s;
         }
         .drop-item:hover {
@@ -453,18 +442,18 @@ export default function Navbar() {
           border-radius: 9px;
           color: var(--nav-login-color);
           font-size: 0.88rem; font-weight: 500;
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-body);
           text-decoration: none; text-align: center;
           transition: background 0.15s;
         }
         .mobile-btn-login:hover { background: var(--nav-login-hbg); }
         .mobile-btn-register {
           flex: 1; padding: 0.6rem;
-          background: linear-gradient(135deg, #6366f1, #7c3aed);
+          background: var(--color-brand-red);
           border: none; border-radius: 9px;
           color: #fff;
           font-size: 0.88rem; font-weight: 600;
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-body);
           text-decoration: none; text-align: center;
         }
 
@@ -482,7 +471,7 @@ export default function Navbar() {
         {/* ── Logo ── */}
         <Link href="/" className="nav-logo">
           <div className="nav-logo-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary-content" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
             </svg>
           </div>
