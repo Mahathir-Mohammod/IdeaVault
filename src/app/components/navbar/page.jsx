@@ -1,44 +1,32 @@
 "use client";
 
 import Link from "next/link";
-
-import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useTheme } from "../ThemeProvider";
-function useAuth() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const checkAuth = () => {
-      const stored = localStorage.getItem("mock_user");
-      if (stored) {
-        setIsLoggedIn(true);
-        setUser(JSON.parse(stored));
-      }
-    };
-    checkAuth();
-  }, []);
-
-  const login = () => {
-    const mockUser = { name: "Alex Morgan", email: "alex@example.com", avatar: "" };
-    localStorage.setItem("mock_user", JSON.stringify(mockUser));
-    setIsLoggedIn(true);
-    setUser(mockUser);
-  };
-
-  const logout = () => {
-    localStorage.removeItem("mock_user");
-    setIsLoggedIn(false);
-    setUser(null);
-  };
-
-  return { isLoggedIn, user, login, logout };
-}
+import { authClient } from "@/lib/auth-client";
 
 export default function Navbar() {
+  const router = useRouter();
   const { theme, toggleTheme } = useTheme();
-  const { isLoggedIn, user, login, logout } = useAuth();
+  const { data: session, isPending, refetch } = authClient.useSession();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
+
+  const isLoggedIn = !!session;
+  const user = session?.user || null;
+
+  const handleLogout = async () => {
+    setSigningOut(true);
+    await authClient.signOut();
+    setSigningOut(false);
+    refetch();
+    router.push("/");
+  };
+
+  const userInitials = user?.name
+    ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase()
+    : "U";
 
   return (
     <div className="navbar bg-base-100 shadow-lg border-b border-base-300 sticky top-0 z-50 px-4 lg:px-8">
@@ -120,9 +108,13 @@ export default function Navbar() {
           </svg>
         </label>
 
-        {!isLoggedIn ? (
+        {isPending ? (
+          <div className="flex items-center gap-2">
+            <span className="loading loading-spinner loading-sm"></span>
+          </div>
+        ) : !isLoggedIn ? (
           <div className="flex items-center gap-1">
-            <Link href="/login" className="btn btn-ghost btn-sm font-medium" onClick={login}>
+            <Link href="/login" className="btn btn-ghost btn-sm font-medium">
               Login
             </Link>
             <Link href="/register" className="btn btn-primary btn-sm font-medium">
@@ -133,9 +125,7 @@ export default function Navbar() {
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar placeholder">
               <div className="bg-primary text-primary-content rounded-full w-9">
-                <span className="text-sm font-bold">
-                  {user?.name ? user.name.split(" ").map(n => n[0]).join("").toUpperCase() : "U"}
-                </span>
+                <span className="text-sm font-bold">{userInitials}</span>
               </div>
             </div>
             <ul
@@ -146,9 +136,7 @@ export default function Navbar() {
                 <div className="flex items-center gap-3">
                   <div className="avatar placeholder">
                     <div className="bg-primary text-primary-content rounded-full w-10">
-                      <span className="text-base font-bold">
-                        {user?.name ? user.name.split(" ").map(n => n[0]).join("").toUpperCase() : "U"}
-                      </span>
+                      <span className="text-base font-bold">{userInitials}</span>
                     </div>
                   </div>
                   <div className="flex flex-col">
@@ -204,10 +192,18 @@ export default function Navbar() {
               </li>
               <div className="divider my-0"></div>
               <li>
-                <button onClick={logout} className="rounded-lg text-error hover:bg-error/10">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
+                <button
+                  onClick={handleLogout}
+                  disabled={signingOut}
+                  className="rounded-lg text-error hover:bg-error/10"
+                >
+                  {signingOut ? (
+                    <span className="loading loading-spinner loading-sm"></span>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                  )}
                   Logout
                 </button>
               </li>
@@ -285,7 +281,7 @@ export default function Navbar() {
               <>
                 <div className="divider my-1 text-xs text-base-content/50">Account</div>
                 <li>
-                  <Link href="/login" className="rounded-lg font-medium" onClick={() => { login(); setMobileOpen(false); }}>
+                  <Link href="/login" className="rounded-lg font-medium" onClick={() => setMobileOpen(false)}>
                     Login
                   </Link>
                 </li>

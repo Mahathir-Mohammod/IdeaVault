@@ -1,15 +1,17 @@
-// app/login/page.jsx
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
-  
+
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState({ show: false, message: "", type: "" });
 
@@ -22,29 +24,43 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // Mock validation: Just check if fields aren't empty
-    if (email === "test@example.com" && password === "password") {
-      showToast("Login successful! Redirecting...", "success");
-      setTimeout(() => router.push("/"), 1000); // Redirect to home on success
-    } else {
-      showToast("Invalid email or password. Please try again.", "error");
+    if (password.length < 6) {
+      showToast("Password must be at least 6 characters long.", "error");
+      setIsLoading(false);
+      return;
     }
 
+    if (password !== confirmPassword) {
+      showToast("Passwords do not match. Please try again.", "error");
+      setIsLoading(false);
+      return;
+    }
+
+    const { error } = await authClient.signUp.email({
+      name,
+      email,
+      password,
+    });
+
+    if (error) {
+      showToast(error.message || "Registration failed. Please try again.", "error");
+      setIsLoading(false);
+      return;
+    }
+
+    showToast("Account created successfully! Redirecting to login...", "success");
+    setTimeout(() => router.push("/login"), 1000);
     setIsLoading(false);
   };
 
-  const handleGoogleLogin = async () => {
+  const handleGoogleSignUp = async () => {
     setIsLoading(true);
-    
-    // Simulate Google API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    showToast("Google login successful! Redirecting...", "success");
-    setTimeout(() => router.push("/"), 1000);
-    
+
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
+
     setIsLoading(false);
   };
 
@@ -52,16 +68,15 @@ export default function LoginPage() {
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-base-200 px-4">
       <div className="card w-full max-w-md shadow-2xl bg-base-100 border border-base-300">
         <div className="card-body">
-          
-          {/* Header */}
+
           <div className="mb-4 text-center">
-            <h2 className="text-3xl font-bold tracking-tight">Welcome back</h2>
-            <p className="text-base-content/60 mt-1 text-sm">Sign in to continue to IdeaVault</p>
+            <h2 className="text-3xl font-bold tracking-tight">Create an account</h2>
+            <p className="text-base-content/60 mt-1 text-sm">Join IdeaVault and share your ideas</p>
           </div>
 
-          {/* Google Login Button */}
+          {/* Google Sign Up Button */}
           <button
-            onClick={handleGoogleLogin}
+            onClick={handleGoogleSignUp}
             disabled={isLoading}
             className="btn btn-outline btn-block gap-3 mb-2"
           >
@@ -71,14 +86,28 @@ export default function LoginPage() {
               <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
               <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
             </svg>
-            Continue with Google
+            Sign up with Google
           </button>
 
-          {/* Divider */}
-          <div className="divider text-base-content/50 text-xs m-0">OR LOGIN WITH EMAIL</div>
+          <div className="divider text-base-content/50 text-xs m-0">OR SIGN UP WITH EMAIL</div>
 
           {/* Email/Password Form */}
-          <form onSubmit={handleSubmit} className="space-y-4 mt-2">
+          <form onSubmit={handleSubmit} className="space-y-3 mt-2">
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text font-medium">Full Name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="John Doe"
+                className="input input-bordered w-full focus:outline-none focus:input-primary transition-colors"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                disabled={isLoading}
+              />
+            </div>
+
             <div className="form-control">
               <label className="label">
                 <span className="label-text font-medium">Email</span>
@@ -107,29 +136,39 @@ export default function LoginPage() {
                 required
                 disabled={isLoading}
               />
+            </div>
+
+            <div className="form-control">
               <label className="label">
-                <Link href="/forgot-password" className="label-text-alt link link-hover text-primary">
-                  Forgot password?
-                </Link>
+                <span className="label-text font-medium">Confirm Password</span>
               </label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                className="input input-bordered w-full focus:outline-none focus:input-primary transition-colors"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                disabled={isLoading}
+              />
             </div>
 
             <div className="form-control mt-6">
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className="btn btn-primary btn-block"
                 disabled={isLoading}
               >
-                {isLoading ? <span className="loading loading-spinner loading-sm"></span> : "Login"}
+                {isLoading ? <span className="loading loading-spinner loading-sm"></span> : "Create Account"}
               </button>
             </div>
           </form>
 
-          {/* Register Link */}
+          {/* Login Link */}
           <p className="text-center text-sm mt-4 text-base-content/60">
-            Don&apos;t have an account?{" "}
-            <Link href="/register" className="link link-primary font-semibold">
-              Register
+            Already have an account?{" "}
+            <Link href="/login" className="link link-primary font-semibold">
+              Login
             </Link>
           </p>
         </div>
