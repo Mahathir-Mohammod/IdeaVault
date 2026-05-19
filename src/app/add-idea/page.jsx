@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { Toaster, toast } from "react-hot-toast";
 
 const CATEGORIES = [
   "FinTech", "HealthTech", "EdTech", "CleanTech", "AI / ML",
@@ -214,15 +215,56 @@ export default function AddIdeaPage() {
     problemStatement: "", proposedSolution: "",
   });
   const [tags, setTags] = useState([]);
-  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState(null);
 
   const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
 
-  const handleSubmit = (e) => {
+  const resetForm = () => {
+    setForm({
+      title: "", shortDesc: "", detailedDesc: "", category: "",
+      imageUrl: "", budget: "", targetAudience: "",
+      problemStatement: "", proposedSolution: "",
+    });
+    setTags([]);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    setLoading(true);
+
+    try {
+      const res = await fetch("http://localhost:5000/api/ideas", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          title: form.title,
+          shortDesc: form.shortDesc,
+          detailedDesc: form.detailedDesc,
+          category: form.category,
+          tags,
+          imageUrl: form.imageUrl || undefined,
+          budget: form.budget ? Number(form.budget) : undefined,
+          targetAudience: form.targetAudience,
+          problemStatement: form.problemStatement,
+          proposedSolution: form.proposedSolution,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to submit idea");
+      }
+
+      toast.success("Submit done");
+      resetForm();
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const inputStyle = (name) => ({
@@ -403,7 +445,9 @@ export default function AddIdeaPage() {
         }
 
         .ai-submit:active { transform: scale(0.98); }
-        .ai-submit.success { background: #16a34a; box-shadow: 0 8px 24px rgba(22,163,74,0.4); }
+        .ai-submit:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         select option { background: var(--bg-card); color: var(--text-primary); }
       `}</style>
@@ -437,6 +481,30 @@ export default function AddIdeaPage() {
         </aside>
 
         <main className="ai-right">
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              style: {
+                background: "var(--bg-card)",
+                color: "var(--text-primary)",
+                border: "1px solid var(--border-default)",
+                borderRadius: "var(--radius-md)",
+                fontSize: "var(--text-sm)",
+              },
+              success: {
+                iconTheme: {
+                  primary: "#16a34a",
+                  secondary: "#fff",
+                },
+              },
+              error: {
+                iconTheme: {
+                  primary: "var(--color-brand-red)",
+                  secondary: "#fff",
+                },
+              },
+            }}
+          />
           <div className="ai-form-card">
             <div style={{ textAlign: "center" }}>
               <div className="ai-form-icon">
@@ -578,14 +646,19 @@ export default function AddIdeaPage() {
 
                 <button
                   type="submit"
-                  className={`ai-submit${submitted ? " success" : ""}`}
+                  disabled={loading}
+                  className="ai-submit"
+                  style={{
+                    opacity: loading ? 0.7 : 1,
+                    cursor: loading ? "not-allowed" : "pointer",
+                  }}
                 >
-                  {submitted ? (
+                  {loading ? (
                     <>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: "spin 1s linear infinite" }}>
+                        <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
                       </svg>
-                      Idea Launched!
+                      Submitting…
                     </>
                   ) : (
                     <>
