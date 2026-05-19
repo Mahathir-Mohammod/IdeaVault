@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-
-
 :root {
   --color-brand-red:        #E8391D;   
   --color-brand-red-hover:  #C9301A;  
