@@ -556,7 +556,7 @@ export default function MyIdeasPage() {
 
   useEffect(() => {
     if (!authPending && !session) {
-      router.push("/login");
+      router.push("/login?redirect=/my-ideas");
       return;
     }
     if (!session) return;

@@ -311,10 +311,10 @@ export default function Footer() {
               <h4 className="ft-col-heading">Support</h4>
               <div className="ft-links">
                 <Link href="/about" className="ft-link">About Us</Link>
-                <Link href="/faq" className="ft-link">FAQ</Link>
-                <Link href="/privacy" className="ft-link">Privacy Policy</Link>
-                <Link href="/terms" className="ft-link">Terms of Service</Link>
-                <Link href="/contact" className="ft-link">Contact Us</Link>
+                <Link href="#" className="ft-link">FAQ</Link>
+                <Link href="#" className="ft-link">Privacy Policy</Link>
+                <Link href="#" className="ft-link">Terms of Service</Link>
+                <Link href="#" className="ft-link">Contact Us</Link>
               </div>
             </div>
 

@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Toaster, toast } from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
 
 const CATEGORIES = [
   "FinTech", "HealthTech", "EdTech", "CleanTech", "AI / ML",
@@ -209,6 +211,9 @@ function SectionDivider({ label }) {
 }
 
 export default function AddIdeaPage() {
+  const router = useRouter();
+  const { data: session, isPending: authPending } = authClient.useSession();
+
   const [form, setForm] = useState({
     title: "", shortDesc: "", detailedDesc: "", category: "",
     imageUrl: "", budget: "", targetAudience: "",
@@ -217,6 +222,15 @@ export default function AddIdeaPage() {
   const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState(null);
+
+  useEffect(() => {
+    if (!authPending && !session) {
+      router.push("/login?redirect=/add-idea");
+    }
+  }, [session, authPending, router]);
+
+  if (authPending) return null;
+  if (!session) return null;
 
   const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
 
