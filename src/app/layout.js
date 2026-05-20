@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NavbarPage from "./components/navbar/page";
-import AboutPage from "./components/about/page";
+
 import FooterPage from "./components/footer/page";
 import { ThemeProvider } from "./components/ThemeProvider";
 const geistSans = Geist({
@@ -31,7 +31,6 @@ export default function RootLayout({ children }) {
           <main className="w-full mx-auto px-4">
             {children}
           </main>
-          <AboutPage />
           <FooterPage />
         </ThemeProvider>
       </body>
