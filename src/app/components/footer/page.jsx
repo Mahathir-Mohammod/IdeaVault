@@ -310,7 +310,7 @@ export default function Footer() {
             <div>
               <h4 className="ft-col-heading">Support</h4>
               <div className="ft-links">
-                <Link href="/about" className="ft-link">About Us</Link>
+                <Link href="#" className="ft-link">About Us</Link>
                 <Link href="#" className="ft-link">FAQ</Link>
                 <Link href="#" className="ft-link">Privacy Policy</Link>
                 <Link href="#" className="ft-link">Terms of Service</Link>
@@ -326,8 +326,8 @@ export default function Footer() {
                     <rect x="2" y="4" width="20" height="16" rx="2"/>
                     <path d="M22 7l-10 7L2 7"/>
                   </svg>
-                  <a href="mailto:mahathirmohammod8@gmail.com">
-                    mahathirmohammod8@gmail.com
+                  <a href="mailto:mahathirmohammod88@gmail.com">
+                    mahathirmohammod88@gmail.com
                   </a>
                 </div>
                 <div className="ft-contact-item">
@@ -348,9 +348,9 @@ export default function Footer() {
               &copy; {currentYear} IdeaVault. All rights reserved.
             </span>
             <div className="ft-legal-links">
-              <Link href="/privacy" className="ft-legal-link">Privacy</Link>
-              <Link href="/terms" className="ft-legal-link">Terms</Link>
-              <Link href="/cookies" className="ft-legal-link">Cookies</Link>
+              <Link href="#" className="ft-legal-link">Privacy</Link>
+              <Link href="#" className="ft-legal-link">Terms</Link>
+              <Link href="#" className="ft-legal-link">Cookies</Link>
             </div>
           </div>
         </div>

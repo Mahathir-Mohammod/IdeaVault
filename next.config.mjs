@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactCompiler: true,
+  experimental: {
+    globalNotFound: true,
+  },
   async rewrites() {
     return [
       {
