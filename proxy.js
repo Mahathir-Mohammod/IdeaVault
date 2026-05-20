@@ -8,6 +8,7 @@ const protectedPagePrefixes = [
   "/my-interactions",
   "/profile",
   "/settings",
+  "/ideas",
 ];
 
 export function proxy(request) {
@@ -37,5 +38,6 @@ export const config = {
     "/my-interactions",
     "/profile",
     "/settings",
+    "/ideas/:path*",
   ],
 };
