@@ -532,7 +532,6 @@ ul, ol { list-style: none; }
   flex-shrink: 0;
 }
 
-
 .dot-group {
   display: grid;
   grid-template-columns: 1fr 1fr;

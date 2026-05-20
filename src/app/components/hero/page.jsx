@@ -23,6 +23,7 @@ const SLIDES = [
     desc: "Test your startup hypotheses using real-time predictive analytics and community-driven stress tests.",
   },
 ];
+
 const STATS = [
   { number: "200+", label: "Ideas" },
   { number: "1K+", label: "Investors" },
@@ -31,13 +32,14 @@ const STATS = [
 
 const AUTOPLAY_INTERVAL = 5000;
 const TRANSITION_DURATION = 700;
+
 function highlightAccent(text, accentWord) {
   if (!accentWord) return text;
   const escaped = accentWord.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const parts = text.split(new RegExp(`(${escaped})`, "gi"));
   return parts.map((part, i) =>
     part.toLowerCase() === accentWord.toLowerCase() ? (
-      <span key={i} className="text-[var(--text-accent)]">
+      <span key={i} className="text-[var(--text-accent)] inline-block">
         {part}
       </span>
     ) : (
@@ -45,6 +47,7 @@ function highlightAccent(text, accentWord) {
     )
   );
 }
+
 export default function HeroPage() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -53,6 +56,7 @@ export default function HeroPage() {
   const containerRef = useRef(null);
   const animTimeoutRef = useRef(null);
   const autoPlayRef = useRef(null);
+
   const goToSlide = useCallback(
     (index) => {
       if (isAnimating) return;
@@ -155,7 +159,6 @@ export default function HeroPage() {
     };
   }, [stopAutoPlay]);
 
-
   const slide = SLIDES[activeIndex];
   const prevSlide = SLIDES[(activeIndex - 1 + SLIDES.length) % SLIDES.length];
   const nextSlide = SLIDES[(activeIndex + 1) % SLIDES.length];
@@ -199,7 +202,6 @@ export default function HeroPage() {
           from { opacity: 0; transform: translateY(16px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        /* --- Reduced motion override --- */
         @media (prefers-reduced-motion: reduce) {
           .hero-blob,
           .hero-blob2,
@@ -207,6 +209,10 @@ export default function HeroPage() {
           .hero-dot-pulse,
           .hero-scroll-wheel { animation: none !important; }
           .hero-slide-content > * { animation: none !important; opacity: 1 !important; transform: none !important; }
+        }
+        /* Bypass universal custom transition for alignment mechanics */
+        .no-global-transition, .no-global-transition * {
+          transition: none !important;
         }
       `}</style>
 
@@ -244,7 +250,8 @@ export default function HeroPage() {
                 "radial-gradient(circle at center, color-mix(in srgb, var(--color-brand-red) 14%, transparent) 0%, transparent 70%)",
               animation: "blobPulse 8s ease-in-out infinite alternate",
               willChange: "transform",
-            }}/>
+            }}
+          />
           <div
             className="hero-blob2 absolute rounded-full hidden md:block"
             style={{
@@ -300,35 +307,23 @@ export default function HeroPage() {
           />
         </div>
 
-        {/* Slide Container */}
-        <div className="relative w-full max-w-[var(--container-max)] mx-auto px-[var(--container-pad)] flex-1 flex items-center justify-center z-[var(--z-raised)]" style={{ paddingTop: "var(--space-12)", paddingBottom: "var(--space-12)" }}>
-          <div
-            className="absolute inset-0 flex items-center justify-center px-[var(--container-pad)] py-8 pointer-events-none"
-            aria-hidden="true"
-            style={{ opacity: 0 }}
-          >
-            <div className="max-w-[820px] text-center mx-auto">
-              <span className="inline-block text-xs font-semibold tracking-[0.18em] uppercase text-[var(--text-muted)] mb-6">
-                {prevSlide.title}
-              </span>
-            </div>
-          </div>
-
+        <div 
+          className="relative w-full max-w-[var(--container-max)] mx-auto px-[var(--container-pad)] flex-1 flex items-center justify-center z-[var(--z-raised)]" 
+          style={{ paddingTop: "var(--space-12)", paddingBottom: "var(--space-12)" }}
+        >
           <div
             key={slide.id}
             role="group"
             aria-roledescription="slide"
             aria-label={`Slide ${activeIndex + 1} of ${SLIDES.length}`}
             aria-live="polite"
-            className="hero-slide-content absolute inset-0 flex items-center justify-center px-[var(--container-pad)] py-12 md:py-16"
+            className="hero-slide-content no-global-transition absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center text-center px-[var(--container-pad)]"
           >
-            <div className="w-full max-w-[880px] text-center mx-auto">
+            <div className="w-full max-w-[880px] mx-auto flex flex-col items-center justify-center text-center">
               <div
                 className="hero-overline"
                 style={{
-                  animation: isAnimating
-                    ? "fadeUpOverline 0.5s ease-out 0.1s both"
-                    : "fadeUpOverline 0.5s ease-out 0.1s both",
+                  animation: "fadeUpOverline 0.5s ease-out 0.1s both",
                   marginBottom: "var(--space-8)",
                 }}
               >
@@ -346,25 +341,23 @@ export default function HeroPage() {
 
               {/* Headline */}
               <h1
-                className="font-[var(--font-display)] text-[var(--text-hero)] font-[var(--fw-extrabold)] leading-[var(--leading-tight)] tracking-[var(--tracking-tight)] text-[var(--text-primary)]"
+                className="w-full text-center font-[var(--font-display)] text-[var(--text-hero)] font-[var(--fw-extrabold)] leading-[var(--leading-tight)] tracking-[var(--tracking-tight)] text-[var(--text-primary)]"
                 style={{
                   marginBottom: "var(--space-8)",
-                  animation: isAnimating
-                    ? "fadeUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both"
-                    : "fadeUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both",
+                  animation: "fadeUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both",
                 }}
               >
-                {highlightAccent(slide.title, slide.accent)}
+                <span className="block w-full text-center">
+                  {highlightAccent(slide.title, slide.accent)}
+                </span>
               </h1>
 
               {/* Description */}
               <p
-                className="font-[var(--font-body)] text-[clamp(1rem,1.5vw,1.125rem)] leading-relaxed text-[var(--text-secondary)] max-w-[640px] mx-auto"
+                className="text-center font-[var(--font-body)] text-[clamp(1rem,1.5vw,1.125rem)] leading-relaxed text-[var(--text-secondary)] max-w-[640px] mx-auto"
                 style={{
                   marginBottom: "var(--space-12)",
-                  animation: isAnimating
-                    ? "fadeUp 0.5s ease-out 0.35s both"
-                    : "fadeUp 0.5s ease-out 0.35s both",
+                  animation: "fadeUp 0.5s ease-out 0.35s both",
                 }}
               >
                 {slide.desc}
@@ -372,41 +365,24 @@ export default function HeroPage() {
 
               {/* CTA Group */}
               <div
-                className="flex flex-wrap items-center justify-center gap-5 md:gap-6 max-sm:flex-col max-sm:w-full"
+                className="flex flex-wrap items-center justify-center gap-5 md:gap-6 max-sm:flex-col max-sm:w-full mx-auto"
                 style={{
-                  animation: isAnimating
-                    ? "fadeUp 0.5s ease-out 0.45s both"
-                    : "fadeUp 0.5s ease-out 0.45s both",
+                  animation: "fadeUp 0.5s ease-out 0.45s both",
                 }}
               >
                 <Link
                   href="/ideas"
-                  className="btn btn-primary max-sm:w-full"
+                  className="btn btn-primary max-sm:w-full text-center justify-center"
                 >
                   Explore Ideas
                 </Link>
-                <button className="btn btn-secondary max-sm:w-full">
+                <button className="btn btn-secondary max-sm:w-full text-center justify-center">
                   Learn More
                 </button>
               </div>
             </div>
           </div>
-
-          {/* Next slide */}
-          <div
-            className="absolute inset-0 flex items-center justify-center px-[var(--container-pad)] py-8 pointer-events-none"
-            aria-hidden="true"
-            style={{ opacity: 0 }}
-          >
-            <div className="max-w-[820px] text-center mx-auto">
-              <span className="inline-block text-xs font-semibold tracking-[0.18em] uppercase text-[var(--text-muted)] mb-6">
-                {nextSlide.title}
-              </span>
-            </div>
-          </div>
         </div>
-
-       
 
         {/*Navigation Row*/}
         <div className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-8 md:gap-10 z-[var(--z-raised)]">
