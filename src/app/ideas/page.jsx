@@ -119,7 +119,6 @@ export default function IdeasPage() {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [filteredCount, setFilteredCount] = useState(0);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const searchRef = useRef(null);
@@ -131,13 +130,16 @@ export default function IdeasPage() {
     }
   }, [session, authPending, router]);
 
-  const fetchIdeas = useCallback(async () => {
+  //accepts search and category, sends them to the backend
+  const fetchIdeas = useCallback(async (search = "", category = "All") => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("http://localhost:5000/api/ideas", {
-        credentials: "include",
-      });
+      const params = new URLSearchParams();
+      if (search.trim()) params.set("search", search.trim());
+      if (category && category !== "All") params.set("category", category);
+      const url = `http://localhost:5000/api/ideas?${params.toString()}`;
+      const res = await fetch(url, { credentials: "include" });
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.error || "Failed to fetch ideas");
@@ -145,22 +147,25 @@ export default function IdeasPage() {
       const data = await res.json();
       const list = Array.isArray(data) ? data : data.ideas || [];
       setIdeas(list);
-      setFilteredCount(list.length);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   }, []);
-
+  
   useEffect(() => {
     if (!session) return;
     let cancelled = false;
-    const load = async () => {
+    const timer = setTimeout(async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/ideas", {
-          credentials: "include",
-        });
+        setLoading(true);
+        setError(null);
+        const params = new URLSearchParams();
+        if (searchQuery.trim()) params.set("search", searchQuery.trim());
+        if (selectedCategory && selectedCategory !== "All") params.set("category", selectedCategory);
+        const url = `http://localhost:5000/api/ideas?${params.toString()}`;
+        const res = await fetch(url, { credentials: "include" });
         if (cancelled) return;
         if (!res.ok) {
           const data = await res.json();
@@ -170,32 +175,15 @@ export default function IdeasPage() {
         if (!cancelled) {
           const list = Array.isArray(data) ? data : data.ideas || [];
           setIdeas(list);
-          setFilteredCount(list.length);
         }
       } catch (err) {
         if (!cancelled) setError(err.message);
       } finally {
         if (!cancelled) setLoading(false);
       }
-    };
-    load();
-    return () => { cancelled = true; };
-  }, [session]);
-
-  const filteredIdeas = ideas.filter((idea) => {
-    const matchesSearch =
-      !searchQuery.trim() ||
-      idea.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      idea.shortDesc?.toLowerCase().includes(searchQuery.toLowerCase());
-
-    const matchesCategory =
-      selectedCategory === "All" ||
-      idea.category === selectedCategory;
-
-    return matchesSearch && matchesCategory;
-  });
-
-  const totalFiltered = filteredIdeas.length;
+    }, 300);
+    return () => { clearTimeout(timer); cancelled = true; };
+  }, [session, searchQuery, selectedCategory]);
 
   const updateScrollState = useCallback(() => {
     const el = categoriesRef.current;
@@ -273,7 +261,7 @@ export default function IdeasPage() {
                 ref={searchRef}
                 type="text"
                 className="ip-search-input"
-                placeholder="Search ideas by title or description..."
+                placeholder="Search ideas by title..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 aria-label="Search ideas"
@@ -319,7 +307,7 @@ export default function IdeasPage() {
             </div>
           </div>
 
-          {/* ─── Data Loading ─── */}
+          {/*  Data Loading  */}
           {loading && (
             <div className="ip-grid">
               {Array.from({ length: 6 }).map((_, i) => (
@@ -328,28 +316,25 @@ export default function IdeasPage() {
             </div>
           )}
 
-          {/* ─── Error State ─── */}
+          {/*  Error State  */}
           {!loading && error && (
             <div className="ip-error">
               <p>{error}</p>
-              <button className="ip-retry-btn" onClick={fetchIdeas}>
+              <button className="ip-retry-btn" onClick={() => fetchIdeas(searchQuery, selectedCategory)}>
                 Try Again
               </button>
             </div>
           )}
 
-          {/* ─── Loaded with Data ─── */}
+          {/*  Loaded with Data  */}
           {!loading && !error && ideas.length > 0 && (
             <>
-              {/* Meta bar */}
               <div className="ip-meta">
                 <div className="ip-meta-count">
                   <span className="ip-meta-dot" />
-                  {totalFiltered === ideas.length
-                    ? `${ideas.length} idea${ideas.length !== 1 ? "s" : ""}`
-                    : `Showing ${totalFiltered} of ${ideas.length} ideas`}
+                  {ideas.length === 1 ? "1 idea" : `${ideas.length} ideas`}
                 </div>
-                {(searchQuery || selectedCategory !== "All") && totalFiltered === 0 && (
+                {(searchQuery || selectedCategory !== "All") && (
                   <button
                     className="ip-clear-btn"
                     onClick={() => { setSearchQuery(""); setSelectedCategory("All"); }}
@@ -359,63 +344,63 @@ export default function IdeasPage() {
                 )}
               </div>
 
-              {/* Empty search results */}
-              {totalFiltered === 0 ? (
-                <div className="ip-empty">
-                  <NoResultsIcon />
-                  <h2>No ideas match your search</h2>
-                  <p>Try different keywords or browse all categories to find what you are looking for.</p>
-                  <button
-                    className="ip-empty-btn"
-                    onClick={() => { setSearchQuery(""); setSelectedCategory("All"); searchRef.current?.focus(); }}
+              {/* Ideas Grid */}
+              <div className="ip-grid">
+                {ideas.map((idea, idx) => (
+                  <div
+                    className="ip-card"
+                    key={idea._id}
+                    style={{ animationDelay: `${idx * 0.06}s` }}
                   >
-                    Clear Filters
-                  </button>
-                </div>
-              ) : (
-                /* Ideas Grid */
-                <div className="ip-grid">
-                  {filteredIdeas.map((idea, idx) => (
-                    <div
-                      className="ip-card"
-                      key={idea._id}
-                      style={{ animationDelay: `${idx * 0.06}s` }}
-                    >
-                      {/* category + time */}
-                      <div className="ip-card-top">
-                        <span className="ip-category">{idea.category || "Uncategorized"}</span>
-                        <span className="ip-time">{timeAgo(idea.createdAt)}</span>
-                      </div>
-                      <h3 className="ip-card-title">{idea.title}</h3>
-                      <p className="ip-card-desc">{idea.shortDesc}</p>
-                      {idea.tags && idea.tags.length > 0 && (
-                        <div className="ip-card-tags">
-                          {idea.tags.map((tag) => (
-                            <span key={tag} className="ip-card-tag">{tag}</span>
-                          ))}
-                        </div>
-                      )}
-                      <div className="ip-card-divider" />
-
-                      {/* View Details CTA */}
-                      <div className="ip-card-footer">
-                        <Link
-                          href={`/ideas/${idea._id}`}
-                          className="ip-view-btn"
-                        >
-                          View Details
-                          <ArrowRightIcon />
-                        </Link>
-                      </div>
+                    {/* category + time */}
+                    <div className="ip-card-top">
+                      <span className="ip-category">{idea.category || "Uncategorized"}</span>
+                      <span className="ip-time">{timeAgo(idea.createdAt)}</span>
                     </div>
-                  ))}
-                </div>
-              )}
+                    <h3 className="ip-card-title">{idea.title}</h3>
+                    <p className="ip-card-desc">{idea.shortDesc}</p>
+                    {idea.tags && idea.tags.length > 0 && (
+                      <div className="ip-card-tags">
+                        {idea.tags.map((tag) => (
+                          <span key={tag} className="ip-card-tag">{tag}</span>
+                        ))}
+                      </div>
+                    )}
+                    <div className="ip-card-divider" />
+
+                    {/* View Details CTA */}
+                    <div className="ip-card-footer">
+                      <Link
+                        href={`/ideas/${idea._id}`}
+                        className="ip-view-btn"
+                      >
+                        View Details
+                        <ArrowRightIcon />
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </>
           )}
 
+          {/*  No Results  */}
+          {!loading && !error && ideas.length === 0 && (searchQuery || selectedCategory !== "All") && (
+            <div className="ip-empty">
+              <NoResultsIcon />
+              <h2>No ideas match your search</h2>
+              <p>Try different keywords or browse all categories to find what you are looking for.</p>
+              <button
+                className="ip-empty-btn"
+                onClick={() => { setSearchQuery(""); setSelectedCategory("All"); searchRef.current?.focus(); }}
+              >
+                Clear Filters
+              </button>
+            </div>
+          )}
+
           {/* Empty State */}
-          {!loading && !error && ideas.length === 0 && (
+          {!loading && !error && ideas.length === 0 && !searchQuery && selectedCategory === "All" && (
             <div className="ip-empty">
               <EmptyIcon />
               <h2>No ideas yet</h2>
