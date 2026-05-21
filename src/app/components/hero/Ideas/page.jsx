@@ -88,7 +88,7 @@ export default function TrendingIdeas() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch("http://localhost:5000/api/ideas/trending");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/ideas/trending`);
         if (!res.ok) {
           const data = await res.json();
           throw new Error(data.error || "Failed to fetch trending ideas");

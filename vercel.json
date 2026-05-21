@@ -1,0 +1,20 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "next build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
+  "rewrites": [
+    {
+      "source": "/api/auth/:path*",
+      "destination": "https://ideavault-server-gamma.vercel.app/api/auth/:path*"
+    },
+    {
+      "source": "/api/ideas/:path*",
+      "destination": "https://ideavault-server-gamma.vercel.app/api/ideas/:path*"
+    },
+    {
+      "source": "/api/me",
+      "destination": "https://ideavault-server-gamma.vercel.app/api/me"
+    }
+  ]
+}
