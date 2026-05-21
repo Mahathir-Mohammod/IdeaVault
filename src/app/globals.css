@@ -10,6 +10,7 @@ mi - for my ideas
 pr - for profile
 id - for ideas detail page
 ix - for my interactions
+ti - for trending ideas
 */
 
 :root {
@@ -440,7 +441,7 @@ ix - for my interactions
   --nav-mobile-active-c: var(--color-brand-red);
   --nav-divider: rgba(0, 0, 0, 0.07);
 
-  /* ─────── Footer light tokens ─────── */
+  /* Footer light tokens  */
   --ft-bg: var(--bg-surface);
   --ft-border: rgba(0, 0, 0, 0.07);
   --ft-heading: var(--color-dark-900);
@@ -5830,3 +5831,314 @@ input,
 .ix-skel-tag { width: 50px; height: 1.25rem; border-radius: 9999px; }
 .ix-skel-divider { height: 1px; background: transparent; margin: 0; }
 .ix-skel-comment { width: 85%; height: 2rem; border-radius: var(--radius-md); }
+
+/*Trending Ideas Section*/
+
+.ti-section {
+  padding: 5rem 1.25rem;
+  background: var(--bg-page);
+  background-image: var(--bg-stripe);
+  font-family: var(--font-body);
+  position: relative;
+  overflow: hidden;
+}
+.ti-container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.ti-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+.ti-overline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+.ti-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem;
+  line-height: 1.1;
+}
+.ti-title em {
+  font-style: normal;
+  color: var(--color-brand-red);
+}
+.ti-subtitle {
+  font-size: var(--text-md);
+  color: var(--text-secondary);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.ti-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+@media (min-width: 640px) {
+  .ti-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 1024px) {
+  .ti-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+.ti-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: tiFadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  position: relative;
+  overflow: hidden;
+}
+@keyframes tiFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.ti-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    color-mix(in srgb, var(--color-brand-red) 4%, transparent),
+    transparent 60%
+  );
+}
+.ti-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-strong);
+}
+.ti-card:hover::before { opacity: 1; }
+
+.ti-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.ti-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.8rem;
+  border-radius: 9999px;
+  background: var(--color-brand-red);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ti-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.ti-comment-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.ti-time {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ti-card-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ti-card-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+}
+.ti-card-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.ti-author {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.ti-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.6rem;
+  border-radius: 9999px;
+  background: transparent;
+  border: 1px solid var(--border-default);
+  color: var(--text-muted);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: border-color 0.2s ease;
+}
+.ti-tag:hover { border-color: var(--border-accent); }
+
+.ti-card-divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 0.15rem 0;
+}
+.ti-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: auto;
+}
+.ti-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem 0.5rem 1.25rem;
+  border-radius: 9999px;
+  background: transparent;
+  border: 1.5px solid var(--border-default);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ti-view-btn svg {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.ti-view-btn:hover {
+  background: var(--color-brand-red);
+  border-color: var(--color-brand-red);
+  color: #fff;
+  box-shadow: var(--shadow-red);
+  transform: translateX(2px);
+}
+.ti-view-btn:hover svg { transform: translateX(3px); }
+
+.ti-skel-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+.ti-skel-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ti-skel-cat,
+.ti-skel-time,
+.ti-skel-title,
+.ti-skel-desc,
+.ti-skel-tag,
+.ti-skel-btn {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--text-muted) 8%, transparent) 25%,
+    color-mix(in srgb, var(--text-muted) 16%, transparent) 50%,
+    color-mix(in srgb, var(--text-muted) 8%, transparent) 75%
+  );
+  background-size: 200% 100%;
+  animation: tiShimmer 1.4s infinite;
+  border-radius: 6px;
+}
+
+@keyframes tiShimmer {
+  to { background-position: -200% 0; }
+}
+.ti-skel-cat { width: 5rem; height: 1.5rem; border-radius: 9999px; }
+.ti-skel-time { width: 3.5rem; height: 0.85rem; }
+.ti-skel-title { width: 80%; height: 1.4rem; border-radius: 4px; }
+.ti-skel-desc { width: 100%; height: 0.85rem; }
+.ti-skel-desc.short { width: 65%; }
+.ti-skel-tags { display: flex; gap: 0.4rem; }
+.ti-skel-tag { width: 4rem; height: 1.25rem; border-radius: 9999px; }
+.ti-skel-divider { height: 1px; background: transparent; margin: 0; }
+.ti-skel-btn-row { display: flex; justify-content: flex-end; }
+.ti-skel-btn { width: 8rem; height: 2rem; border-radius: 9999px; }
+
+.ti-error {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--color-brand-red);
+  font-size: 0.9rem;
+}
+.ti-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.ti-empty h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+.ti-empty p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 380px;
+}
+@media (max-width: 639px) {
+  .ti-section { padding: 3rem 1rem; }
+  .ti-card { padding: 1.25rem; }
+  .ti-card-title { font-size: 1rem; }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .ti-card { padding: 1.35rem; }
+}
