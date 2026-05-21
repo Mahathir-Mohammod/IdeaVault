@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
 import { Toaster, toast } from "react-hot-toast";
 
 const CATEGORIES = [
@@ -102,18 +100,8 @@ function SkeletonCard() {
   );
 }
 
-function LoadingSpinner() {
-  return (
-    <div className="ip-auth-skel">
-      <div className="ip-auth-spinner" />
-    </div>
-  );
-}
 /*MAIN IDEAS PAGE */
 export default function IdeasPage() {
-  const router = useRouter();
-  const { data: session, isPending: authPending } = authClient.useSession();
-
   const [ideas, setIdeas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -123,12 +111,6 @@ export default function IdeasPage() {
   const [canScrollRight, setCanScrollRight] = useState(true);
   const searchRef = useRef(null);
   const categoriesRef = useRef(null);
-
-  useEffect(() => {
-    if (!authPending && !session) {
-      router.push("/login?redirect=/ideas");
-    }
-  }, [session, authPending, router]);
 
   //accepts search and category, sends them to the backend
   const fetchIdeas = useCallback(async (search = "", category = "All") => {
@@ -155,7 +137,6 @@ export default function IdeasPage() {
   }, []);
   
   useEffect(() => {
-    if (!session) return;
     let cancelled = false;
     const timer = setTimeout(async () => {
       try {
@@ -183,7 +164,7 @@ export default function IdeasPage() {
       }
     }, 300);
     return () => { clearTimeout(timer); cancelled = true; };
-  }, [session, searchQuery, selectedCategory]);
+  }, [searchQuery, selectedCategory]);
 
   const updateScrollState = useCallback(() => {
     const el = categoriesRef.current;
@@ -214,9 +195,6 @@ export default function IdeasPage() {
       window.removeEventListener("resize", updateScrollState);
     };
   }, [updateScrollState]);
-
-  if (authPending) return <LoadingSpinner />;
-  if (!session) return null;
 
   return (
     <>

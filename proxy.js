@@ -8,7 +8,6 @@ const protectedPagePrefixes = [
   "/my-interactions",
   "/profile",
   "/settings",
-  "/ideas",
 ];
 
 export function proxy(request) {
@@ -17,6 +16,14 @@ export function proxy(request) {
 
   if (sessionCookie && authPages.includes(pathname)) {
     return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  // /ideas (list) is public; /ideas/[id] (detail) requires auth
+  if (!sessionCookie && pathname.startsWith("/ideas/")) {
+    const isDetailPage = pathname.split("/").length >= 3;
+    if (isDetailPage) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
   }
 
   if (
@@ -38,6 +45,6 @@ export const config = {
     "/my-interactions",
     "/profile",
     "/settings",
-    "/ideas/:path*",
+    "/ideas/:path+",
   ],
 };
